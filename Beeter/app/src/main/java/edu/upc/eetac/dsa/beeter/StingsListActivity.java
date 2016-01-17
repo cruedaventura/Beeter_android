@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -52,7 +53,7 @@ public class StingsListActivity extends AppCompatActivity {
             for(Sting sting : stingCollection.getStings()){
                 stings.getStings().add(stings.getStings().size(), sting);
             }
-            //adapter.notifyDataSetChanged();
+           // adapter.notifyDataSetChanged();
         }
     }
 
@@ -82,6 +83,14 @@ public class StingsListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        // set list OnItemClick listener
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, BeeterClient.getLink(stings.getStings().get(position).getLinks(), "self").getUri().toString());
             }
         });
     }
