@@ -19,9 +19,7 @@ import edu.upc.eetac.dsa.beeter.client.entity.StingCollection;
  */
 public class StingCollectionAdapter extends BaseAdapter {
     private StingCollection stingCollection;
-    private LayoutInflater layoutInflater;
-    private ArrayList<Sting> data;
-    private LayoutInflater inflater;
+    private LayoutInflater layoutInflater;;
 
     public StingCollectionAdapter(Context context, StingCollection stingCollection){
         layoutInflater = LayoutInflater.from(context);
@@ -47,37 +45,37 @@ public class StingCollectionAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_row_sting, null);
-            viewHolder = new ViewHolder();
-            viewHolder.textViewSubject = (TextView) convertView
-                    .findViewById(R.id.textsubject);
-            viewHolder.textViewUsername = (TextView) convertView
-                    .findViewById(R.id.textUsername);
-            viewHolder.textViewDate = (TextView) convertView
-                    .findViewById(R.id.textDate);
+            convertView = layoutInflater.inflate(R.layout.list_row_sting, null);
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String subject = data.get(position).getSubject();
-        String username = data.get(position).getUserid();
-        String date = SimpleDateFormat.getInstance().format(
-                data.get(position).getLastModified());
+
+        String userid = stingCollection.getStings().get(position).getUserid();
+        String subject = stingCollection.getStings().get(position).getSubject();
+        Long date = stingCollection.getStings().get(position).getCreationTimestamp();
+        String sdate = String.valueOf(date);
+
+        viewHolder.textViewCreator.setText(userid);
         viewHolder.textViewSubject.setText(subject);
-        viewHolder.textViewUsername.setText(username);
-        viewHolder.textViewDate.setText(date);
+        viewHolder.textViewDate.setText(sdate);
         return convertView;
     }
 
-    private static class ViewHolder {
+    class ViewHolder{
+        TextView textViewCreator;
         TextView textViewSubject;
-        TextView textViewUsername;
         TextView textViewDate;
-}
 
-    public StingCollectionAdapter(Context context, ArrayList<Sting> data) {
-        super();
-        inflater = LayoutInflater.from(context);
-        this.data = data;
+        ViewHolder(View row){
+            this.textViewCreator = (TextView) row
+                    .findViewById(R.id.textUsername);
+            this.textViewSubject = (TextView) row
+                    .findViewById(R.id.textsubject);
+            this.textViewDate = (TextView) row
+                    .findViewById(R.id.textDate);
+        }
     }
+
 }

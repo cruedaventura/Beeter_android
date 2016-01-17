@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 
@@ -51,7 +52,7 @@ public class StingsListActivity extends AppCompatActivity {
             for(Sting sting : stingCollection.getStings()){
                 stings.getStings().add(stings.getStings().size(), sting);
             }
-            adapter.notifyDataSetChanged();
+            //adapter.notifyDataSetChanged();
         }
     }
 
@@ -67,6 +68,13 @@ public class StingsListActivity extends AppCompatActivity {
         // Execute AsyncTask
         mGetStingsTask = new GetStingsTask(null);
         mGetStingsTask.execute((Void) null);
+
+        // set list adapter
+        ListView list = (ListView)findViewById(R.id.list);
+        StingCollectionAdapter  adapter = new StingCollectionAdapter(this, stings);
+        list.setAdapter(adapter);
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
